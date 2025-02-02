@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'screens/counter.dart'; // Import the counter.dart file
+import 'screens/OpenCounter_Screen.dart'; // Import the OpenCounter_Screen.dart file
 
 void main() {
   runApp(const MyApp());
@@ -43,25 +43,46 @@ class _WelcomePageState extends State<WelcomePage> {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(
-        backgroundColor: Theme.of(context).colorScheme.inversePrimary,
-        title: const Text('Welcome'),
-      ),
-      body: const Center(
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: <Widget>[
-            Text(
-              'Welcome to the App!',
-              style: TextStyle(fontSize: 24, fontWeight: FontWeight.bold),
+    return MaterialApp(
+      home: Scaffold(
+        backgroundColor: Colors.blueGrey[900],
+        body: Center(
+          child: Container(
+            padding: EdgeInsets.all(20),
+            decoration: BoxDecoration(
+              color: Colors.white,
+              borderRadius: BorderRadius.circular(15),
+              boxShadow: [
+                BoxShadow(
+                  color: Colors.black26,
+                  blurRadius: 10,
+                  spreadRadius: 2,
+                ),
+              ],
             ),
-            SizedBox(height: 20),
-            Text(
-              'The counter page will appear in 10 seconds...',
-              style: TextStyle(fontSize: 16),
+            child: Column(
+              mainAxisSize: MainAxisSize.min,
+              children: [
+                Text(
+                  "Welcome Back!",
+                  style: TextStyle(
+                    fontSize: 28,
+                    fontWeight: FontWeight.bold,
+                    color: Colors.blueAccent,
+                  ),
+                ),
+                SizedBox(height: 10),
+                Text(
+                  "Stay organized effortlessly! This app helps you track and manage your tasks with ease.",
+                  textAlign: TextAlign.center,
+                  style: TextStyle(
+                    fontSize: 16,
+                    color: Colors.black87,
+                  ),
+                ),
+              ],
             ),
-          ],
+          ),
         ),
       ),
     );
