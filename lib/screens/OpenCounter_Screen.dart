@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:shared_preferences/shared_preferences.dart';
+import 'home.dart';
 
 class CounterPage extends StatefulWidget {
   const CounterPage({super.key});
@@ -31,11 +32,25 @@ class _CounterPageState extends State<CounterPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(title: const Text("App Open Counter")),
+      appBar: AppBar(
+          title: const Text("App Open Counter")),
       body: Center(
-        child: Text(
-          "You have opened this app $_openCount times!",
-          style: const TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
+        child: Column(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: [Text(
+            "You have opened this app $_openCount times!)",
+            style: const TextStyle(fontSize: 25,fontWeight: FontWeight.bold),
+          ),
+            const SizedBox(height: 50),
+            ElevatedButton(
+                onPressed: (){
+                  Navigator.push(
+                  context,
+                      MaterialPageRoute(builder: (context) => const Home()),
+                  );
+                },
+                child: Text("Start now"))
+            ]
         ),
       ),
     );
