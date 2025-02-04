@@ -3,24 +3,25 @@ import "package:flutter/material.dart";
 import "package:to_do/constants/colors.dart";
 import 'package:to_do/widget/todo_item.dart';
 
+class Home extends StatefulWidget {
+  Home({Key? key}) : super(key: key);
 
-class Home extends StatelessWidget {
-   Home({Key? key}) : super(key: key);
-   final todosList = ToDo.todoList();
+  @override
+  _HomeState createState() => _HomeState();
+}
+
+class _HomeState extends State<Home> {
+  final todosList = ToDo.todoList();
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: tdBGColor,
-      appBar: _buildAppBar() ,
+      appBar: _buildAppBar(),
       body: Stack(
         children: [
           Container(
-            padding:  EdgeInsets.symmetric(
-                horizontal: 20,
-              vertical: 15,
-
-            ),
+            padding: EdgeInsets.symmetric(horizontal: 20, vertical: 15),
             child: Column(
               children: [
                 searchBox(),
@@ -28,30 +29,27 @@ class Home extends StatelessWidget {
                   child: ListView(
                     children: [
                       Container(
-                        margin: EdgeInsets.only(
-                            top: 50,
-                            bottom: 20
-                        ),
+                        margin: EdgeInsets.only(top: 50, bottom: 20),
                         child: Text(
                           "All Todo's",
-                          style: TextStyle(
-                            fontSize:30,
-                            fontWeight: FontWeight.w500,
-                          ),
+                          style: TextStyle(fontSize: 30, fontWeight: FontWeight.w500),
                         ),
-
                       ),
-                      for (ToDo  todoo in todosList)
-                        ToDoItem(todo: todoo),
+                      for (ToDo todoo in todosList)
+                        ToDoItem(
+                          todo: todoo,
+                          onToDoChanged: _handleToDoChange,
+                          onDeleteItem: () {},
+                        ),
                     ],
                   ),
                 )
               ],
-            )
+            ),
           ),
           Align(
             alignment: Alignment.bottomCenter,
-            child: Padding( // Add padding around the row
+            child: Padding(
               padding: const EdgeInsets.only(bottom: 20, left: 20, right: 20),
               child: Row(
                 children: [
@@ -78,14 +76,14 @@ class Home extends StatelessWidget {
                       ),
                     ),
                   ),
-                  const SizedBox(width: 10), // Add some spacing
+                  const SizedBox(width: 10),
                   ElevatedButton(
                     onPressed: () {},
                     style: ElevatedButton.styleFrom(
-                      backgroundColor: tdBlue, // Use backgroundColor
+                      backgroundColor: tdBlue,
                       minimumSize: const Size(60, 60),
                       elevation: 10,
-                      shape: RoundedRectangleBorder( // Make button circular
+                      shape: RoundedRectangleBorder(
                         borderRadius: BorderRadius.circular(10),
                       ),
                     ),
@@ -103,8 +101,13 @@ class Home extends StatelessWidget {
     );
   }
 
+  void _handleToDoChange(ToDo todo) {
+    setState(() {
+      todo.isDone = !todo.isDone;
+    });
+  }
 
-   Widget searchBox() {
+  Widget searchBox() {
     return Container(
       decoration: BoxDecoration(
         color: Colors.white,
@@ -132,8 +135,7 @@ class Home extends StatelessWidget {
     );
   }
 
-
-  AppBar _buildAppBar(){
+  AppBar _buildAppBar() {
     return AppBar(
       backgroundColor: tdBGColor,
       title: Row(

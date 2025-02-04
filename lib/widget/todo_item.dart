@@ -1,32 +1,35 @@
 import 'package:to_do/models/todo.dart';
 import 'package:flutter/material.dart';
 import 'package:to_do/constants/colors.dart';
-
-class ToDoItem extends StatelessWidget{
-
+class ToDoItem extends StatelessWidget {
   final ToDo todo;
-  const ToDoItem({Key? key, required this.todo}) : super(key: key);
+  final void Function(ToDo) onToDoChanged;
+  final VoidCallback onDeleteItem; // Correct type
+
+  const ToDoItem({
+    Key? key,
+    required this.todo,
+    required this.onToDoChanged,
+    required this.onDeleteItem,
+  }) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
     return Container(
       margin: EdgeInsets.only(bottom: 20),
       child: ListTile(
-        onTap: (){
-          print("click on to do item");
+        onTap: () {
+          onToDoChanged(todo);
         },
-        shape: RoundedRectangleBorder(
-          borderRadius: BorderRadius.circular(20)
-        ),
-
-        contentPadding: EdgeInsets.symmetric(horizontal: 20,vertical: 5),
+        shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(20)),
+        contentPadding: EdgeInsets.symmetric(horizontal: 20, vertical: 5),
         tileColor: Colors.white,
-          leading: Icon(
-            todo.isDone ? Icons.check_box : Icons.check_box_outline_blank,
-            color: tdBlue,
-          ),
+        leading: Icon(
+          todo.isDone ? Icons.check_box : Icons.check_box_outline_blank,
+          color: tdBlue,
+        ),
         title: Text(
-          todo.todoText!,
+          todo.todoText ?? "", // Ensures no null error
           style: TextStyle(
             fontSize: 20,
             fontWeight: FontWeight.w500,
@@ -47,12 +50,10 @@ class ToDoItem extends StatelessWidget{
             color: Colors.white,
             iconSize: 18,
             icon: Icon(Icons.delete),
-            onPressed: (){
-              print("delete item clicked");
-            },
-          )
+            onPressed: onDeleteItem, // Correctly calling function
+          ),
         ),
-      )
+      ),
     );
   }
 }
