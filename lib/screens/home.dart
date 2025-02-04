@@ -11,7 +11,8 @@ class Home extends StatefulWidget {
 }
 
 class _HomeState extends State<Home> {
-  final todosList = ToDo.todoList();
+  final List<ToDo> todosList = ToDo.todoList();
+  final TextEditingController _todoController = TextEditingController(); // Controller for input field
 
   @override
   Widget build(BuildContext context) {
@@ -43,10 +44,11 @@ class _HomeState extends State<Home> {
                         ),
                     ],
                   ),
-                )
+                ),
               ],
             ),
           ),
+          // ✅ Add Button & Text Field
           Align(
             alignment: Alignment.bottomCenter,
             child: Padding(
@@ -68,6 +70,7 @@ class _HomeState extends State<Home> {
                         ],
                       ),
                       child: TextField(
+                        controller: _todoController, // Attach controller
                         decoration: InputDecoration(
                           hintText: 'Add a new todo item',
                           border: InputBorder.none,
@@ -78,7 +81,7 @@ class _HomeState extends State<Home> {
                   ),
                   const SizedBox(width: 10),
                   ElevatedButton(
-                    onPressed: () {},
+                    onPressed: _addToDoItem, // Call add function
                     style: ElevatedButton.styleFrom(
                       backgroundColor: tdBlue,
                       minimumSize: const Size(60, 60),
@@ -109,9 +112,26 @@ class _HomeState extends State<Home> {
 
   void _deleteToDoItem(ToDo todo) {
     setState(() {
-      todosList.remove(todo); // Removes the item from the list
+      todosList.remove(todo);
     });
   }
+
+  // ✅ Add Function
+  void _addToDoItem() {
+    String todoText = _todoController.text.trim();
+    if (todoText.isNotEmpty) {
+      setState(() {
+        todosList.add(ToDo(
+          id: DateTime.now().millisecondsSinceEpoch.toString(), // Generate unique ID
+          todoText: todoText,
+          isDone: false,
+        ));
+      });
+      _todoController.clear(); // Clear the input field after adding
+    }
+  }
+
+
 
   Widget searchBox() {
     return Container(
