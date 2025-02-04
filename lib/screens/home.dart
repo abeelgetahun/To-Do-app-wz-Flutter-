@@ -13,44 +13,98 @@ class Home extends StatelessWidget {
     return Scaffold(
       backgroundColor: tdBGColor,
       appBar: _buildAppBar() ,
-      body: Container(
-        padding:  EdgeInsets.symmetric(
-            horizontal: 20,
-          vertical: 15,
+      body: Stack(
+        children: [
+          Container(
+            padding:  EdgeInsets.symmetric(
+                horizontal: 20,
+              vertical: 15,
 
-        ),
-        child: Column(
-          children: [
-            searchBox(),
-            Expanded(
-              child: ListView(
+            ),
+            child: Column(
+              children: [
+                searchBox(),
+                Expanded(
+                  child: ListView(
+                    children: [
+                      Container(
+                        margin: EdgeInsets.only(
+                            top: 50,
+                            bottom: 20
+                        ),
+                        child: Text(
+                          "All Todo's",
+                          style: TextStyle(
+                            fontSize:30,
+                            fontWeight: FontWeight.w500,
+                          ),
+                        ),
+
+                      ),
+                      for (ToDo  todoo in todosList)
+                        ToDoItem(todo: todoo),
+                    ],
+                  ),
+                )
+              ],
+            )
+          ),
+          Align(
+            alignment: Alignment.bottomCenter,
+            child: Padding( // Add padding around the row
+              padding: const EdgeInsets.only(bottom: 20, left: 20, right: 20),
+              child: Row(
                 children: [
-                  Container(
-                    margin: EdgeInsets.only(
-                        top: 50,
-                        bottom: 20
-                    ),
-                    child: Text(
-                      "All Todo's",
-                      style: TextStyle(
-                        fontSize:30,
-                        fontWeight: FontWeight.w500,
+                  Expanded(
+                    child: Container(
+                      height: 60,
+                      padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 5),
+                      decoration: BoxDecoration(
+                        color: Colors.white,
+                        borderRadius: BorderRadius.circular(10),
+                        boxShadow: const [
+                          BoxShadow(
+                            color: Colors.grey,
+                            blurRadius: 10.0,
+                          ),
+                        ],
+                      ),
+                      child: TextField(
+                        decoration: InputDecoration(
+                          hintText: 'Add a new todo item',
+                          border: InputBorder.none,
+                          hintStyle: TextStyle(color: tdGrey),
+                        ),
                       ),
                     ),
-              
                   ),
-                  for (ToDo  todoo in todosList)
-                    ToDoItem(todo: todoo),
+                  const SizedBox(width: 10), // Add some spacing
+                  ElevatedButton(
+                    onPressed: () {},
+                    style: ElevatedButton.styleFrom(
+                      backgroundColor: tdBlue, // Use backgroundColor
+                      minimumSize: const Size(60, 60),
+                      elevation: 10,
+                      shape: RoundedRectangleBorder( // Make button circular
+                        borderRadius: BorderRadius.circular(10),
+                      ),
+                    ),
+                    child: const Text(
+                      "+",
+                      style: TextStyle(fontSize: 40, color: Colors.white),
+                    ),
+                  ),
                 ],
               ),
-            )
-          ],
-        )
+            ),
+          ),
+        ],
       ),
     );
   }
 
-  Widget searchBox() {
+
+   Widget searchBox() {
     return Container(
       decoration: BoxDecoration(
         color: Colors.white,
