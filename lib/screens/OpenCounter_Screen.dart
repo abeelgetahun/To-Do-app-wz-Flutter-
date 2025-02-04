@@ -38,13 +38,13 @@ class _CounterPageState extends State<CounterPage> {
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
           children: [Text(
-            "You have opened this app $_openCount times!)",
+            "You have opened this app $_openCount times!",
             style: const TextStyle(fontSize: 25,fontWeight: FontWeight.bold),
           ),
             const SizedBox(height: 50),
             ElevatedButton(
                 onPressed: (){
-                  Navigator.push(
+                  Navigator.pushReplacement(
                   context,
                       MaterialPageRoute(builder: (context) => const Home()),
                   );

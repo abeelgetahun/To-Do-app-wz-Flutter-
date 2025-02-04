@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'screens/OpenCounter_Screen.dart'; // Import the OpenCounter_Screen.dart file
 
 void main() {
@@ -10,7 +11,12 @@ class MyApp extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    SystemChrome.setSystemUIOverlayStyle(
+      SystemUiOverlayStyle(
+        statusBarColor: Colors.transparent,)
+      );
     return MaterialApp(
+      debugShowCheckedModeBanner: false,
       title: 'Just do',
       theme: ThemeData(
         colorScheme: ColorScheme.fromSeed(seedColor: Colors.deepPurple),
