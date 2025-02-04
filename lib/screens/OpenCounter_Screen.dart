@@ -46,7 +46,7 @@ class _CounterPageState extends State<CounterPage> {
                 onPressed: (){
                   Navigator.pushReplacement(
                   context,
-                      MaterialPageRoute(builder: (context) => const Home()),
+                      MaterialPageRoute(builder: (context) =>  Home()),
                   );
                 },
                 child: Text("Start now"))
