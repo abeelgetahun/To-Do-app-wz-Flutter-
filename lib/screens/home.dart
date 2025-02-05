@@ -2,6 +2,8 @@ import 'package:to_do/models/todo.dart';
 import "package:flutter/material.dart";
 import "package:to_do/constants/colors.dart";
 import 'package:to_do/widget/todo_item.dart';
+import 'dart:convert';
+import 'package:shared_preferences/shared_preferences.dart';
 
 class Home extends StatefulWidget {
   Home({Key? key}) : super(key: key);
@@ -11,9 +13,73 @@ class Home extends StatefulWidget {
 }
 
 class _HomeState extends State<Home> {
-  final List<ToDo> todosList = ToDo.todoList();
-  final TextEditingController _todoController = TextEditingController(); // Controller for input field
+  final List<ToDo> todosList = [];
+  final TextEditingController _todoController = TextEditingController();
+  static const String STORAGE_KEY = 'todos';
 
+  @override
+  void initState() {
+    super.initState();
+    loadTodos();
+  }
+
+  // Load todos from storage
+  Future<void> loadTodos() async {
+    final prefs = await SharedPreferences.getInstance();
+    final String? todosString = prefs.getString(STORAGE_KEY);
+
+    if (todosString != null) {
+      final List<dynamic> decoded = jsonDecode(todosString);
+      setState(() {
+        todosList.clear();
+        todosList.addAll(
+          decoded.map((item) => ToDo.fromJson(item)).toList(),
+        );
+      });
+    } else {
+      setState(() {
+        todosList.addAll(ToDo.todoList());
+      });
+    }
+  }
+
+  // Save todos to storage
+  Future<void> saveTodos() async {
+    final prefs = await SharedPreferences.getInstance();
+    final String encodedTodos = jsonEncode(
+      todosList.map((todo) => todo.toJson()).toList(),
+    );
+    await prefs.setString(STORAGE_KEY, encodedTodos);
+  }
+
+  void _handleToDoChange(ToDo todo) {
+    setState(() {
+      todo.isDone = !todo.isDone;
+      saveTodos();
+    });
+  }
+
+  void _deleteToDoItem(ToDo todo) {
+    setState(() {
+      todosList.remove(todo);
+      saveTodos();
+    });
+  }
+
+  void _addToDoItem() {
+    String todoText = _todoController.text.trim();
+    if (todoText.isNotEmpty) {
+      setState(() {
+        todosList.add(ToDo(
+          id: DateTime.now().millisecondsSinceEpoch.toString(),
+          todoText: todoText,
+          isDone: false,
+        ));
+        saveTodos();
+      });
+      _todoController.clear();
+    }
+  }
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -103,34 +169,6 @@ class _HomeState extends State<Home> {
       ),
     );
   }
-
-  void _handleToDoChange(ToDo todo) {
-    setState(() {
-      todo.isDone = !todo.isDone;
-    });
-  }
-
-  void _deleteToDoItem(ToDo todo) {
-    setState(() {
-      todosList.remove(todo);
-    });
-  }
-
-  // ✅ Add Function
-  void _addToDoItem() {
-    String todoText = _todoController.text.trim();
-    if (todoText.isNotEmpty) {
-      setState(() {
-        todosList.add(ToDo(
-          id: DateTime.now().millisecondsSinceEpoch.toString(), // Generate unique ID
-          todoText: todoText,
-          isDone: false,
-        ));
-      });
-      _todoController.clear(); // Clear the input field after adding
-    }
-  }
-
 
 
   Widget searchBox() {
