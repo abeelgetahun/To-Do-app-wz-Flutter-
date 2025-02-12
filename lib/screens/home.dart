@@ -246,7 +246,7 @@ class _HomeState extends State<Home> with SingleTickerProviderStateMixin {
           contentPadding: const EdgeInsets.symmetric(vertical: 15),
           prefixIcon: Icon(Icons.search, color: tdBlack, size: 20),
           border: InputBorder.none,
-          hintText: 'Search todos...',
+          hintText: 'Search todos..... ..... ...',
           hintStyle: TextStyle(color: tdGrey),
         ),
       ),
