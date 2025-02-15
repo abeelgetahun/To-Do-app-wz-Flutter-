@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'Home.dart';
+import 'Home.dart'; // Add this line if not already present
 
 class OpenCounterScreen extends StatefulWidget {
   const OpenCounterScreen({super.key});
@@ -18,7 +18,6 @@ class _OpenCounterScreenState extends State<OpenCounterScreen> {
       body: Center(
         child: ElevatedButton(
           onPressed: () {
-            // Navigate to the Home page
             Navigator.push(
               context,
               MaterialPageRoute(builder: (context) => const Home()),
