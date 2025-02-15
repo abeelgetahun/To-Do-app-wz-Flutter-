@@ -1,6 +1,20 @@
 import 'package:flutter/material.dart';
 import 'package:timeline_tile/timeline_tile.dart';
 
+class Task {
+  final String day; // e.g., "Wen"
+  final String date; // e.g., "Feb 13"
+  final String description;
+  bool isCompleted;
+
+  Task({
+    required this.day,
+    required this.date,
+    required this.description,
+    this.isCompleted = false,
+  });
+}
+
 class Home extends StatefulWidget {
   const Home({super.key});
 
@@ -9,28 +23,36 @@ class Home extends StatefulWidget {
 }
 
 class _HomeState extends State<Home> {
-  bool isCompleted = false;
+  // Create a list of tasks
+  final List<Task> _tasks = [
+    Task(day: 'Mon', date: 'Feb 11', description: 'Task for Monday just chill and do some stuf you want '),
+    Task(day: 'Tue', date: 'Feb 12', description: 'Task for Tuesday'),
+    Task(day: 'Wen', date: 'Feb 13', description: 'Task for Wednesday'),
+    Task(day: 'Thu', date: 'Feb 14', description: 'Task for Thursday'),
+    Task(day: 'Fri', date: 'Feb 15', description: 'Task for Friday'),
+  ];
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        title: const Text("Timeline Page"),
-      ),
-      body: ListView(
+      appBar: AppBar(title: const Text("Timeline Page")),
+      body: ListView.builder(
         padding: const EdgeInsets.all(16),
-        children: [
-          TimelineTile(
+        itemCount: _tasks.length,
+        itemBuilder: (context, index) {
+          final Task task = _tasks[index];
+          return TimelineTile(
             alignment: TimelineAlign.manual,
             lineXY: 0.15,
-            isFirst: true,
+            isFirst: index == 0,
+            isLast: index == _tasks.length - 1,
             indicatorStyle: IndicatorStyle(
               width: 40,
               height: 40,
               indicator: GestureDetector(
                 onTap: () {
                   setState(() {
-                    isCompleted = !isCompleted;
+                    task.isCompleted = !task.isCompleted;
                   });
                 },
                 child: Container(
@@ -39,7 +61,7 @@ class _HomeState extends State<Home> {
                     color: Colors.green,
                   ),
                   child: Center(
-                    child: isCompleted
+                    child: task.isCompleted
                         ? const Icon(Icons.done, color: Colors.white)
                         : const Icon(Icons.radio_button_unchecked, color: Colors.white),
                   ),
@@ -58,14 +80,14 @@ class _HomeState extends State<Home> {
               padding: const EdgeInsets.symmetric(vertical: 16),
               child: Column(
                 mainAxisAlignment: MainAxisAlignment.center,
-                children: const [
+                children: [
                   Text(
-                    'Wen',
-                    style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
+                    task.day,
+                    style: const TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
                   ),
                   Text(
-                    'Feb 13',
-                    style: TextStyle(fontSize: 14),
+                    task.date,
+                    style: const TextStyle(fontSize: 14),
                   ),
                 ],
               ),
@@ -77,14 +99,13 @@ class _HomeState extends State<Home> {
                 color: Colors.grey.shade200,
                 borderRadius: BorderRadius.circular(8),
               ),
-              child: const Text(
-                'This is a description of the task. Tap the circle to mark it as done.',
-                style: TextStyle(fontSize: 16),
+              child: Text(
+                task.description,
+                style: const TextStyle(fontSize: 16),
               ),
             ),
-          ),
-          // You can add additional TimelineTile widgets here for more tasks.
-        ],
+          );
+        },
       ),
     );
   }
