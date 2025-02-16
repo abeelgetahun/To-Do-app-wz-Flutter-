@@ -25,7 +25,10 @@ class Home extends StatefulWidget {
 class _HomeState extends State<Home> {
   // Create a list of tasks
   final List<Task> _tasks = [
-    Task(day: 'Mon', date: 'Feb 11', description: 'Task for Monday just chill and do some stuf you want '),
+    Task(
+        day: 'Mon',
+        date: 'Feb 11',
+        description: 'Task for Monday just chill and do some stuff you want'),
     Task(day: 'Tue', date: 'Feb 12', description: 'Task for Tuesday'),
     Task(day: 'Wen', date: 'Feb 13', description: 'Task for Wednesday'),
     Task(day: 'Thu', date: 'Feb 14', description: 'Task for Thursday'),
@@ -56,14 +59,17 @@ class _HomeState extends State<Home> {
                   });
                 },
                 child: Container(
-                  decoration: const BoxDecoration(
+                  decoration: BoxDecoration(
                     shape: BoxShape.circle,
-                    color: Colors.green,
+                    color: task.isCompleted ? Colors.green : Colors.white,
+                    border: task.isCompleted
+                        ? null
+                        : Border.all(color: Colors.green, width: 2),
                   ),
                   child: Center(
                     child: task.isCompleted
                         ? const Icon(Icons.done, color: Colors.white)
-                        : const Icon(Icons.radio_button_unchecked, color: Colors.white),
+                        : const Icon(Icons.radio_button_unchecked, color: Colors.green),
                   ),
                 ),
               ),
