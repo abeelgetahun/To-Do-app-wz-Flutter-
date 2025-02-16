@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:timeline_tile/timeline_tile.dart';
 
 class Task {
+  // day, date, description
   final String day; // e.g., "Wen"
   final String date; // e.g., "Feb 13"
   final String description;
