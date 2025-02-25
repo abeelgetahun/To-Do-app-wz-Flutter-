@@ -25,13 +25,11 @@ class Home extends StatefulWidget {
 class _HomeState extends State<Home> {
   // Create a list of tasks
   final List<Task> _tasks = [
-    Task(
-        day: 'Mon',
-        date: 'Feb 11',
-        description: 'Task for Monday just chill and do some stuff you want'),
-    Task(day: 'Tue', date: 'Feb 12', description: 'Task for Tuesday'),
+    Task(day: 'Mon', date: 'Feb 11', description: 'Task for Monday just chill and do some stuff you want'),
+    Task(day: 'Tue', date: 'Feb 12', description: 'Task for liben'),
     Task(day: 'Wen', date: 'Feb 13', description: 'Task for Wednesday'),
     Task(day: 'Thu', date: 'Feb 14', description: 'Task for Thursday'),
+    Task(day: 'Fri', date: 'Feb 15', description: 'Task for Friday'),
     Task(day: 'Fri', date: 'Feb 15', description: 'Task for Friday'),
   ];
 
